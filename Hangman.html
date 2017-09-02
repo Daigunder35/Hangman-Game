@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>hangman</title>
+
+</head>
+
+	<script> 
+
+	// array of composer guess choices
+	var randCompArr = ["Beethoven","Mozart","Bach","Wagner","Haydn","Brahms","Schubert","Handel","Stravinsky"];
+
+	// random composer
+	var randComp = randCompArr[Math.floor(Math.random() * randCompArr.length)]; 
+
+	//amount of guesses left
+
+	// storage
+	var spaces;
+	var count = 10;
+	//empty array for the answer
+	var answerArray = [];
+	var guessedArray = [];
+
+
+	 //filling the answer holder with underscores, should match name length
+	function underScores()
+	{
+
+		for (var i = 0; i < randComp.length; i++) 
+
+		{
+			answerArray[i] = "_";
+		}
+
+		//make them a string
+		spaces = answerArray.join(" ");
+		document.getElementById("answer").innerHTML = spaces;
+	
+	}
+
+	//Get the letter the user typed in
+	function userLetter()
+	{
+
+		var letter = document.getElementById("letter").value;
+		
+
+		if (letter.length === 1)
+		{
+
+				for (var i = 0; i <= randComp.length; i++) 
+				{
+					
+						// Checks if user input matches any letter in randComp then assigns it in its appropriate index. 
+						if (randComp[i] === letter) 
+						{
+					 		answerArray[i] = letter;
+
+					 		count ++
+						}
+
+				}
+
+				count--
+
+				guessedArray.push(letter)	
+			document.getElementById("answer").innerHTML = answerArray.join(" ");
+			document.getElementById("begin").value = "letter"
+			document.getElementById("guessedItems").innerHTML = "You Have Guessed: " + guessedArray.join(",")
+		}
+			if (count <= 0) 
+			{
+				document.getElementById("stat").innerHTML = "You're Hanged!";
+				count = 10;
+		 	}
+
+		 	if (answerArray.join("") === randComp)
+		 	{
+
+		 		document.getElementById("stat").innerHTML = "You Win!";
+		 	}
+
+		 	document.getElementById("counter").innerHTML = "Guesses Left: " + count;
+
+			
+	}
+
+
+	</script>
+
+<body onload="underScores()">
+
+<h1> HANGMAN </h1>
+
+<h1> Guess a letter</h1>
+
+<input id="letter" type="text">
+
+<input id ="begin" type="button" value="start" onclick="userLetter()"/>
+
+<p id = "answer"></p>
+
+<p id = "counter"></p>
+
+<p id = "guessedItems"></p>
+
+<p id = "stat"></p>
+</body>
+</html>
